@@ -241,12 +241,12 @@
       />
       <input id="text" type="text" />
 
-      <button onclick="hideText()">Hide Message Into Image</button>
+      <button id="myBtn" onclick="hideText()">Encode</button>
     </div>
     <h5>Display Image</h5>
     <img id="image1" src="" alt="" />
 
-    <h5>Message Encoded Image</h5>
+    <h5>Encoded</h5>
     <img id="image2" src="" alt="" />
     <div>
       <input
@@ -254,12 +254,30 @@
         name="pic"
         accept="image/*"
         onchange="readURL(this),decode(this)"
-      />
+      />  <button onclick="copy()">Copy</button>
+    
     </div>
-    <h5>Decoded Text:</h5>
-    <p id="decoded"></p>
+    <h5>Text:</h5>
+      <textarea id="decoded" readonly></textarea>
+    
     <script>
       var imgdatauri;
+
+      var input = document.getElementById("text");
+      input.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          document.getElementById("myBtn").click();
+        }
+      });
+
+      function copy() {
+        // Get the text field
+        var copyText = document.getElementById("decoded");
+
+        // Copy the text inside the text field
+        navigator.clipboard.writeText(copyText.value);
+      }
 
       function readURL(input) {
         if (input.files && input.files[0]) {
