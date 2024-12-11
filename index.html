@@ -7,6 +7,9 @@
         max-width: 100%;
         height: 200px;
       }
+      textarea {
+        white-space: pre;
+      }
     </style>
   </head>
   <body>
@@ -239,10 +242,10 @@
         accept="image/*"
         onchange="readURL(this);"
       />
-      <input id="text" type="text" />
-
       <button id="myBtn" onclick="hideText()">Encode</button>
     </div>
+    <textarea id="text" type="text"></textarea>
+
     <h5>Display Image</h5>
     <img id="image1" src="" alt="" />
 
@@ -254,28 +257,33 @@
         name="pic"
         accept="image/*"
         onchange="readURL(this),decode(this)"
-      />  <button onclick="copy()">Copy</button>
-    
+      />
+      <button id="myCopy" onclick="copy()">Copy</button>
     </div>
     <h5>Text:</h5>
-      <textarea id="decoded" readonly></textarea>
-    
+    <textarea id="decoded"></textarea>
+
     <script>
       var imgdatauri;
-
       var input = document.getElementById("text");
-      input.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
+      
+      document.onkeyup = function (e) {
+        e = e || window.event;
+        // Press Ctrl + C to copy
+        if (e.ctrlKey && e.key === "c") {
+          var copyText = document.getElementById("decoded");
+          navigator.clipboard.writeText(copyText.value);
+        }
+        // Press Ctrl + Enter to Encode
+        if (e.ctrlKey && e.key === "Enter") {
           event.preventDefault();
           document.getElementById("myBtn").click();
-        }
-      });
+        } 
+      };
 
       function copy() {
-        // Get the text field
         var copyText = document.getElementById("decoded");
 
-        // Copy the text inside the text field
         navigator.clipboard.writeText(copyText.value);
       }
 
